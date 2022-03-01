@@ -20,15 +20,6 @@ public class HeatmapManager : MonoBehaviour
     public Button[] colorSchemesButtons;
     public Texture[] colorSchemes;
 
-    // public Transform heatmapHDRIPosition;
-    //  public Transform heatmapRendererTrans;
-    //  public MeshRenderer heatmapRendererTest;
-
-    // void Update()
-    // {
-    //     heatmapRendererTest.sharedMaterial.SetVector("_Direction", (Vector4)((heatmapHDRIPosition.position - heatmapRendererTrans.position).normalized));
-    // }
-
     void Start()
     {
         slider.maxValue = texture.Length - 1;
@@ -40,7 +31,7 @@ public class HeatmapManager : MonoBehaviour
         for (int i = 0; i < colorSchemesButtons.Length; i++)
         {
             int x = i;
-            colorSchemesButtons[i].onClick.AddListener(() => { heatmapRenderer.material.SetTexture("_ColorSchemeTex", colorSchemes[x]); });
+            colorSchemesButtons[i].onClick.AddListener(() => { heatmapRenderer.sharedMaterial.SetTexture("_ColorSchemeTex", colorSchemes[x]); });
         }
     }
 
@@ -49,11 +40,11 @@ public class HeatmapManager : MonoBehaviour
         if (interpolation < texture.Length - 1)
         {
             int currentTexture = (int)(interpolation);
-            heatmapRenderer.material.SetTexture("_MainTex", texture[currentTexture]);
-            heatmapRenderer.material.SetTexture("_MainTex2", texture[currentTexture + 1]);
+            heatmapRenderer.sharedMaterial.SetTexture("_MainTex", texture[currentTexture]);
+            heatmapRenderer.sharedMaterial.SetTexture("_MainTex2", texture[currentTexture + 1]);
 
             float progress = interpolation % 1;
-            heatmapRenderer.material.SetFloat("_Interpolation", progress);
+            heatmapRenderer.sharedMaterial.SetFloat("_Interpolation", progress);
             interpolationText.text = interpolation.ToString();
             HeatMapUI(texture[currentTexture], texture[currentTexture + 1]);
         }
